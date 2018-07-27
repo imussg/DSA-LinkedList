@@ -131,6 +131,7 @@ function main() {
 	SLL.insertLast('Helo');
 	SLL.insertLast('Husker');
 	SLL.insertLast('Starbuck');
+	SLL.insertLast('Starbuck');
 
 	SLL.insertLast('Tauhida');
 
@@ -144,9 +145,20 @@ function main() {
 
 	console.log(display(SLL));
 	console.log(findSize(SLL));
-	console.log(isEmpty(SLL)); //false
-	console.log(findPrevious(SLL, 'Helo'));
-	console.log(findLast(SLL));
+	// console.log(isEmpty(SLL)); //false
+	// console.log(findPrevious(SLL, 'Helo'));
+	// console.log(findLast(SLL));
+	console.log(reverseList(SLL));
+	console.log(display(SLL));
+
+	// console.log(thirdFromEnd(SLL));
+	// console.log(findMiddle(SLL));
+
+
+	let cycle = new LinkedList();
+
+
+
 
 
 }
@@ -219,4 +231,146 @@ function findLast(list) {
 	}
 
 	return current;
+}
+
+
+////////////// MYSTERY PROGRAM //////////////////
+
+function WhatDoesThisProgramDo(lst){
+    let current = lst.head;
+    while(current !== null){
+        let newNode = current;
+        while (newNode.next !== null) {
+            if (newNode.next.value === current.value) {
+                newNode.next = newNode.next.next;
+            }
+            else{
+                newNode = newNode.next;
+            }
+        }
+        current = current.next;
+    }
+}
+
+// The above function traverses through a list. As
+// it traverses, it sets a newNode to equal the current
+// node. It then traverses through the list (excluding
+// the last node) and compares if the next pointer after
+// newNode is equal to the current node value. If it is,
+// that means that value is a duplicate in the list so
+// the newNode skips the duplicate and points to the node
+// after the one it has skipped. The original traversal
+// continues until the end of the list has been reached.
+
+
+//NEED TO TEST!!
+////////////// REVERSE LIST  //////////////////
+
+function reverseList(list) {
+	if (list.head === null) {
+		return null;
+	}
+
+	if (list.head.next === null) {
+		return list.head;
+	}
+
+	let prev = null,
+			current = list.head,
+			next = list.head.next;
+
+	while (next !== null) {
+		current.next = prev;
+
+		prev = current;
+		current = next;
+		next = next.next;
+	}
+
+	current.next = prev;
+	list.head = current;
+
+	return list;
+
+
+	// let current = list.head,
+	// 		prev = current,
+	// 		prevPrev = prev;
+	//
+	// while (current !== null) {
+	// 	if(current === list.head) {
+	// 		prev.next === null;
+	// 	} else {
+	// 		prev.next = prevPrev;
+	// 	}
+	// 	prevPrev = prev;
+	// 	prev = current;
+	// 	current = current.next;
+	// }
+	// return prev;
+
+}
+
+
+
+////////////// THIRD FROM THE END  //////////////////
+
+function thirdFromEnd(list) {
+	if(list.head === null || list.head.next === null || list.head.next.next === null) {
+		return null;
+	}
+
+	let current = list.head;
+
+	while (current.next.next.next !== null) {
+		current = current.next;
+	}
+	return current;
+}
+
+
+////////////// FIND MIDDLE OF LIST  //////////////////
+
+function findMiddle(list) {
+	if (list.head === null) {
+		return null;
+	}
+
+	let current = list.head,
+			prev = current,
+			prevPrev = prev;
+
+	while(current !== null && current.next !== null) {
+		prevPrev = prev;
+		prev = prev.next;
+		current = current.next.next;
+	}
+
+	//if list size is even, return previous value
+	if(current === null) {
+		return prevPrev;
+	}
+
+	//if list size is odd, return just previous value
+	//current.next !== null, check in while loop is necessary for this to work
+	return prev;
+}
+
+
+// NEED TO TEST!!!
+////////////// CYCLE IN A LIST  //////////////////
+
+function cycleInList(list) {
+	let current = list.head,
+			prev = current;
+
+	while (current !== null) {
+		if(current.next === prev) {
+			return true;
+		}
+		prev = current;
+		current = current.next;
+	}
+
+	return false;
 }
